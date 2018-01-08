@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+    long long int n,factn,k,factk,b,factnk,c,d;
+    int test;
+    cin>>test;
+    for(int i=1;i<=test;i++)
+    {
+        cin>>n>>k;
+        factn=1;
+        for(int j=1;j<=n;j++)
+        {
+            factn=((factn%1000003)*(j%1000003))%1000003;
+        }
+        factk=1;
+        for(int j=1;j<=k;j++)
+        {
+            factk=((factk%1000003)*(j%1000003))%1000003;
+        }
+        b=n-k;
+        factnk=1;
+        for(int j=1;j<=b;j++)
+        {
+            factnk=((factnk%1000003)*(j%1000003))%1000003;
+        }
+        c=factk*factnk;
+        d=factn/c;
+        cout<<"Case "<<i<<": "<<d<<endl;
+
+    }
+}
+
