@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+#define ll long long int
+#define max 100005
+using namespace std;
+ll n,q,mn;
+ll arr[max];
+ll tree[max*4];
+int seg_build(int node,int b,int e)
+{
+    if(b==e)
+    {
+        tree[node]=arr[b];
+        return tree[node];
+    }
+    int right=node*2+1;
+    int left=node*2;
+    int mid=(b+e)/2;
+    seg_build(left,b,mid);
+    seg_build(right,mid+1,e);
+    tree[node]=min(tree[left],tree[right]);
+}
+int segment_query(int node,int b,int e,int i,int j)
+{
+    if(i>e || j<b)
+    {
+        return 0;
+    }
+    if(b>=i && e<=j)
+    {
+        return tree[node];
+    }
+    int left=node*2;
+    int right=node*2+1;
+    int mid=(b+e)/2;
+    int p=segment_query(left,b,mid,i,j);
+    int q=segment_query(right,mid+1,e,i,j);
+    if(p!=0 && q!=0)
+    {
+        return min(p,q);
+    }
+    else if(p==0 && q!=0)
+    {
+        return q;
+    }
+    else if(p!=0 && q==0)
+    {
+        return p;
+    }
+    else
+        return 0;
+}
+
+int main()
+{
+    int test;
+    ll m,m1;
+    scanf("%d",&test);
+    for(int i=1; i<=test; i++)
+    {
+        printf("\n");
+        scanf("%lld%lld",&n,&q);
+        for(int j=1; j<=n; j++)
+        {
+            scanf("%lld",&arr[j]);
+        }
+        seg_build(1,1,n);
+        printf("Case %d: \n",i);
+        for(int j=1;j<=q;j++){
+         scanf("%lld%lld",&m,&m1);
+         printf("%d\n",segment_query(1,1,n,m,m1));
+        }
+         memset(tree,0,sizeof tree);
+         memset(arr,0,sizeof arr);
+    }
+}
